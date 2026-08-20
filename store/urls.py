@@ -16,11 +16,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from market.views import get_products, get_product_by_id, create_product, update_product, delete_product
+from market.views import (
+    get_products,
+    get_product_by_id,
+    create_product,
+    update_product,
+    delete_product,
+    create_batch_products,
+    delete_all_products
+)
 
 #Swagger and Redoc documentation
 
@@ -37,8 +43,11 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('market/api/', include('market.urls')),
-    path('market/api/docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('market/api/redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('products/', get_products, name='get-products'),
+    path('products/<int:id>/', get_product_by_id, name='get-product-by-id'),
+    path('products/create/', create_product, name='create-product'),
+    path('products/<int:id>/update/', update_product, name='update-product'),
+    path('products/<int:id>/delete/', delete_product, name='delete-product'),
+    path('products/batch/', create_batch_products, name='create-batch-products'),
+    path('products/delete-all/', delete_all_products, name='delete-all-products'),
 ]

@@ -7,6 +7,10 @@ from django.core.exceptions import ValidationError
 from django.views.decorators.csrf import csrf_exempt
 from .models import Product
 
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+
 
 def parse_price(value):
     try:
@@ -44,7 +48,7 @@ def product_to_dict(product, request=None):
 
 
 @csrf_exempt
-@require_http_methods(["GET"])
+@api_view(["GET"])
 def get_products(request):
     """Retrieve all products and return them as a JSON response."""
     try:
@@ -58,12 +62,12 @@ def get_products(request):
 # this is to get product by id
 
 @csrf_exempt
-@require_http_methods(["GET"])
+@api_view(["GET"])
 def get_product_by_id(request, id):
     """Retrieve a product by ID and return it as a JSON response."""
     try:
         product = Product.objects.get(pk=id)
-        return JsonResponse(product_to_dict(product, request))
+        return Response(product_to_dict(product, request))
     except Product.DoesNotExist:
         return JsonResponse({'error': 'Product not found.'}, status=404)
     except Exception as e:
@@ -72,7 +76,7 @@ def get_product_by_id(request, id):
 
 
 @csrf_exempt
-@require_http_methods(["POST"])
+@api_view(["POST"])
 def create_product(request):
     """Create a new product from the provided JSON data."""
     try:
@@ -138,7 +142,7 @@ def create_product(request):
 
 
 @csrf_exempt
-@require_http_methods(["PUT"])
+@api_view(["PUT"])
 def update_product(request,id):
 
     """Update an existing product in the database based on the provided ID and JSON data."""
@@ -196,7 +200,7 @@ def update_product(request,id):
 
 
 @csrf_exempt
-@require_http_methods(["DELETE"])
+@api_view(["DELETE"])
 def delete_product(request, id):
     """Delete a product by ID and return a JSON response indicating success or failure."""
 
@@ -214,7 +218,7 @@ def delete_product(request, id):
 
 #create batch products endpoint
 @csrf_exempt
-@require_http_methods(["POST"])
+@api_view(["POST"])
 def create_batch_products(request):
     """Create multiple products from the provided JSON data."""
     try:
@@ -265,7 +269,7 @@ def create_batch_products(request):
 
 # Delete all products endpoint
 @csrf_exempt
-@require_http_methods(["DELETE"])
+@api_view(["DELETE"])
 def delete_all_products(request):
     """Delete all products from the database and return a JSON response indicating success or failure."""
     try:
