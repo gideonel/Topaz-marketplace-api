@@ -1,12 +1,20 @@
 from django.urls import path
-from . import views
+from market.views import (
+    get_products,
+    get_product_by_id,
+    create_product,
+    update_product,
+    delete_product,
+    create_batch_products,
+    delete_all_products,
+)
 
 urlpatterns = [
-    path('products/get/', views.get_products, name='get_products'),
-    path('products/get/<int:id>/', views.get_product_by_id, name='get_product_by_id'),
-    path('products/create/', views.create_product, name='create_product'),
-    path('products/batch-create/', views.create_batch_products, name='create_batch_products'),
-    path('products/update/<int:id>/', views.update_product, name='update_product'),
-    path('products/delete/<int:id>/', views.delete_product, name='delete_product'),
-    path('products/delete-all/', views.delete_all_products, name='delete_all_products'),
+    path('products/', get_products, name='get-products'),
+    path('products/<int:id>/', get_product_by_id, name='get-product-by-id'),
+    path('products/create/', create_product, name='create-product'),
+    path('products/<int:id>/update/', update_product, name='update-product'),
+    path('products/<int:id>/delete/', delete_product, name='delete-product'),
+    path('products/batch/', create_batch_products, name='create-batch-products'),
+    path('products/delete-all/', delete_all_products, name='delete-all-products'),
 ]
