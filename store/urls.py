@@ -20,6 +20,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from market.views import get_products, get_product_by_id, create_product, update_product, delete_product
 
 #Swagger and Redoc documentation
 
