@@ -263,4 +263,15 @@ def create_batch_products(request):
     
 
 
-# get all products
+# Delete all products endpoint
+@csrf_exempt
+@require_http_methods(["DELETE"])
+def delete_all_products(request):
+    """Delete all products from the database and return a JSON response indicating success or failure."""
+    try:
+        count, _ = Product.objects.all().delete()
+        return JsonResponse(
+            {'status': 'success', 
+             'message': f'All products deleted successfully. Total deleted: {count}.'})
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
